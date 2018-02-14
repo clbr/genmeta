@@ -5,6 +5,8 @@
 
 #include <lrtypes.h>
 
+#include <map>
+
 #include <FL/Fl.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_RGB_Image.H>
