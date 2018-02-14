@@ -9,6 +9,17 @@ static Fl_Double_Window *win;
 u8 tool;
 char basefname[PATH_MAX];
 
+void nukenewline(char buf[]) {
+
+	u32 i;
+	for (i = 0; buf[i]; i++) {
+		if (buf[i] == '\n') {
+			buf[i] = '\0';
+			break;
+		}
+	}
+}
+
 static void newmeta(const char * const fname) {
 
 	std::map<u8, u8> counter;
@@ -109,9 +120,26 @@ static void newcb(Fl_Widget *, void *) {
 }
 
 static void savecb(Fl_Widget *, void *) {
+	// TODO save everything
 }
 
 static void opencb(Fl_Widget *, void *) {
+	const char *name = fl_file_chooser("Open metasprite", "*.meta", "", 1);
+	if (!name)
+		return;
+
+	FILE *f = fopen(name, "r");
+	if (!f) {
+		fl_alert("Can't open %s", name);
+		return;
+	}
+
+	char buf[1024];
+	while (fgets(buf, 1024, f)) {
+		nukenewline(buf);
+
+		// TODO load image, list of things
+	}
 }
 
 static void quitcb(Fl_Widget *, void *) {
