@@ -3,6 +3,8 @@
 #ifndef genmeta_h
 #define genmeta_h
 
+#include <lrtypes.h>
+
 #include <FL/Fl.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_RGB_Image.H>
@@ -25,5 +27,27 @@ public:
 	void draw();
 };
 extern genmeta *meta;
+
+extern u8 tool;
+
+enum {
+	SPR1x1,
+	SPR2x1,
+	SPR3x1,
+	SPR4x1,
+	SPR1x2,
+	SPR2x2,
+	SPR3x2,
+	SPR4x2,
+	SPR1x3,
+	SPR2x3,
+	SPR3x3,
+	SPR4x3,
+	SPR1x4,
+	SPR2x4,
+	SPR3x4,
+	SPR4x4,
+	MOVE
+};
 
 #endif
