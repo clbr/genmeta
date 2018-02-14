@@ -24,9 +24,18 @@ enum {
 };
 
 Fl_Browser *spritelist = (Fl_Browser *) 0;
+genmeta *meta;
 static Fl_Double_Window *win;
 
+static void newmeta(const char * const fname) {
+	printf("Loading sprite %s\n", fname);
+}
+
 static void newcb(Fl_Widget *, void *) {
+	spritelist->clear();
+	const char *name = fl_file_chooser("Load PNG sprite", "*.png", "", 1);
+	if (name)
+		newmeta(name);
 }
 
 static void savecb(Fl_Widget *, void *) {
@@ -143,6 +152,7 @@ int main(int argc, char **argv)
 			o->box(FL_FLAT_BOX);
 			o->color((Fl_Color) 41);
 			Fl_Group::current()->resizable(o);
+			meta = o;
 		}		// Fl_Box* o
 		{
 			Fl_Menu_Bar *o = new Fl_Menu_Bar(0, 0, 800, 20);
@@ -151,6 +161,10 @@ int main(int argc, char **argv)
 		win->size_range(800, 565);
 		win->end();
 	}			// Fl_Double_Window* o
+
+	if (argc > 1 && strstr(argv[argc - 1], ".png"))
+		newmeta(argv[argc - 1]);
+
 	win->show(argc, argv);
 	return Fl::run();
 }

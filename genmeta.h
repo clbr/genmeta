@@ -4,6 +4,8 @@
 #define genmeta_h
 
 #include <FL/Fl.H>
+#include <FL/Fl_File_Chooser.H>
+#include <FL/Fl_RGB_Image.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Group.H>
@@ -22,5 +24,6 @@ public:
 	int handle(int e);
 	void draw();
 };
+extern genmeta *meta;
 
 #endif
