@@ -3,76 +3,88 @@
 #include "genmeta.h"
 
 Fl_Browser *spritelist = (Fl_Browser *) 0;
+static Fl_Double_Window *win;
+
+static void newcb(Fl_Widget *, void *) {
+}
+
+static void savecb(Fl_Widget *, void *) {
+}
+
+static void opencb(Fl_Widget *, void *) {
+}
+
+static void quitcb(Fl_Widget *, void *) {
+	win->hide();
+}
 
 Fl_Menu_Item menu_[] = {
 	{"&File", 0, 0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
-	{"&New", 0x4006e, 0, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
-	{"&Save", 0x40073, 0, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
-	{"&Open", 0x4006f, 0, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
-	{"&Quit", 0x40071, 0, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+	{"&New", 0x4006e, newcb, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
+	{"&Save", 0x40073, savecb, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+	{"&Open", 0x4006f, opencb, 0, 128, FL_NORMAL_LABEL, 0, 14, 0},
+	{"&Quit", 0x40071, quitcb, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
 int main(int argc, char **argv)
 {
-	Fl_Double_Window *w;
 	{
-		Fl_Double_Window *o = new Fl_Double_Window(800, 565, "GenMeta");
-		w = o;
+		win = new Fl_Double_Window(800, 565, "GenMeta");
 		{
 			Fl_Group *o = new Fl_Group(5, 25, 160, 535);
 			{
-				new Fl_Button(5, 30, 40, 35, "1x1");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(5, 30, 40, 35, "1x1");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(45, 30, 40, 35, "2x1");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(45, 30, 40, 35, "2x1");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(85, 30, 40, 35, "3x1");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(85, 30, 40, 35, "3x1");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(125, 30, 40, 35, "4x1");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(125, 30, 40, 35, "4x1");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(5, 70, 40, 35, "1x2");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(5, 70, 40, 35, "1x2");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(45, 70, 40, 35, "2x2");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(45, 70, 40, 35, "2x2");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(85, 70, 40, 35, "3x2");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(85, 70, 40, 35, "3x2");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(125, 70, 40, 35, "4x2");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(125, 70, 40, 35, "4x2");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(5, 110, 40, 35, "1x3");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(5, 110, 40, 35, "1x3");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(45, 110, 40, 35, "2x3");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(45, 110, 40, 35, "2x3");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(85, 110, 40, 35, "3x3");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(85, 110, 40, 35, "3x3");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(125, 110, 40, 35, "4x3");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(125, 110, 40, 35, "4x3");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(5, 150, 40, 35, "1x4");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(5, 150, 40, 35, "1x4");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(45, 150, 40, 35, "2x4");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(45, 150, 40, 35, "2x4");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(85, 150, 40, 35, "3x4");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(85, 150, 40, 35, "3x4");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(125, 150, 40, 35, "4x4");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(125, 150, 40, 35, "4x4");
+			}	// Fl_Toggle_Button* o
 			{
-				new Fl_Button(5, 190, 64, 20, "Move");
-			}	// Fl_Button* o
+				new Fl_Toggle_Button(5, 190, 64, 20, "Move");
+			}	// Fl_Toggle_Button* o
 			{
 				spritelist = new Fl_Browser(5, 215, 160, 340);
 				Fl_Group::current()->resizable(spritelist);
@@ -89,9 +101,9 @@ int main(int argc, char **argv)
 			Fl_Menu_Bar *o = new Fl_Menu_Bar(0, 0, 800, 20);
 			o->menu(menu_);
 		}		// Fl_Menu_Bar* o
-		o->size_range(800, 565);
-		o->end();
+		win->size_range(800, 565);
+		win->end();
 	}			// Fl_Double_Window* o
-	w->show(argc, argv);
+	win->show(argc, argv);
 	return Fl::run();
 }
