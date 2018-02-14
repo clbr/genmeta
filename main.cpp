@@ -30,6 +30,8 @@ Fl_Menu_Item menu_[] = {
 
 int main(int argc, char **argv)
 {
+	Fl::scheme("plastic");
+
 	{
 		win = new Fl_Double_Window(800, 565, "GenMeta");
 		{
