@@ -12,6 +12,8 @@ char basefname[PATH_MAX];
 static void newmeta(const char * const fname) {
 //	printf("Loading sprite %s\n", fname);
 	spritelist->clear();
+	free(meta->raw);
+	meta->raw = NULL;
 
 	FILE *f = fopen(fname, "r");
 	if (!f) {
@@ -36,7 +38,6 @@ static void newmeta(const char * const fname) {
 
 	const u32 imgw = png_get_image_width(png_ptr, info);
 	const u32 imgh = png_get_image_height(png_ptr, info);
-	u8 * const data = (u8 *) calloc(imgw, imgh);
 	const u8 type = png_get_color_type(png_ptr, info);
 	const u8 depth = png_get_bit_depth(png_ptr, info);
 	u8 **rows = png_get_rows(png_ptr, info);
@@ -59,8 +60,11 @@ static void newmeta(const char * const fname) {
 	}
 
 	u32 i;
+	meta->raw = (u8 *) calloc(imgw, imgh);
+	meta->imgw = imgw;
+	meta->imgh = imgh;
 	for (i = 0; i < imgh; i++) {
-		u8 * const target = data + imgw * i;
+		u8 * const target = meta->raw + imgw * i;
 		memcpy(target, &rows[i][0], imgw);
 	}
 

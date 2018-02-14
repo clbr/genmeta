@@ -21,10 +21,14 @@ extern Fl_Menu_Item menu_[];
 class genmeta: public Fl_Widget {
 private:
 public:
-	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h) {}
+	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h), raw(NULL) {}
 
 	int handle(int e);
 	void draw();
+
+	u8 *raw;
+	u8 bgpixel;
+	u32 imgw, imgh;
 };
 extern genmeta *meta;
 
