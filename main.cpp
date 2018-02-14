@@ -139,7 +139,7 @@ int main(int argc, char **argv)
 			o->end();
 		}		// Fl_Group* o
 		{
-			Fl_Box *o = new Fl_Box(175, 29, 615, 527);
+			genmeta *o = new genmeta(175, 29, 615, 527);
 			o->box(FL_FLAT_BOX);
 			o->color((Fl_Color) 41);
 			Fl_Group::current()->resizable(o);

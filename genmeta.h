@@ -2,7 +2,9 @@
 
 #ifndef genmeta_h
 #define genmeta_h
+
 #include <FL/Fl.H>
+#include <FL/fl_draw.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Toggle_Button.H>
@@ -11,4 +13,14 @@ extern Fl_Browser *spritelist;
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Menu_Bar.H>
 extern Fl_Menu_Item menu_[];
+
+class genmeta: public Fl_Widget {
+private:
+public:
+	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h) {}
+
+	int handle(int e);
+	void draw();
+};
+
 #endif
