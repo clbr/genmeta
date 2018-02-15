@@ -207,15 +207,26 @@ void genmeta::draw() {
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++, i++) {
 
+		if (inside && tool == MOVE && selected == i)
+			continue;
+
 		fillcolor(i, 192);
 		spriteimg.draw(sx + it->x * 4, sy + it->y * 4,
 			sprw[it->type] * 4, sprh[it->type] * 4);
 	}
 
 	// Draw the being-placed sprite
-	if (inside && tool != MOVE) {
-		fillcolor(spritelist.size(), 128);
-		spriteimg.draw(sx + inx * 4, sy + iny * 4, sprw[tool] * 4, sprh[tool] * 4);
+	if (inside) {
+		if (tool != MOVE) {
+			fillcolor(spritelist.size(), 128);
+			spriteimg.draw(sx + inx * 4, sy + iny * 4, sprw[tool] * 4, sprh[tool] * 4);
+
+		} else if (selected < spritelist.size()) {
+			fillcolor(selected, 128);
+			spriteimg.draw(sx + inx * 4, sy + iny * 4,
+				sprw[spritelist[selected].type] * 4,
+				sprh[spritelist[selected].type] * 4);
+		}
 	}
 
 	fl_pop_clip();
