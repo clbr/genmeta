@@ -100,6 +100,8 @@ out:
 	fclose(f);
 	png_destroy_info_struct(png_ptr, &info);
 	png_destroy_read_struct(&png_ptr, NULL, NULL);
+
+	win->redraw();
 }
 
 static void newcb(Fl_Widget *, void *) {
