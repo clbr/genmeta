@@ -32,7 +32,7 @@ static void newmeta(const char * const fname) {
 	free(meta->raw);
 	meta->raw = NULL;
 
-	FILE *f = fopen(fname, "r");
+	FILE *f = fopen(fname, "rb");
 	if (!f) {
 		fl_alert("Can't open %s", fname);
 		return;
@@ -121,7 +121,7 @@ static void opencb(Fl_Widget *, void *) {
 	if (!name)
 		return;
 
-	FILE *f = fopen(name, "r");
+	FILE *f = fopen(name, "rb");
 	if (!f) {
 		fl_alert("Can't open %s", name);
 		return;
