@@ -116,6 +116,8 @@ static void selectsprite(Fl_Widget *w, void *) {
 
 	if (!selected)
 		selected = USHRT_MAX;
+	else
+		selected--;
 }
 
 static void newcb(Fl_Widget *, void *) {
