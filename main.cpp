@@ -92,6 +92,8 @@ static void newmeta(const char * const fname) {
 
 	delete png;
 
+	meta->redraw();
+
 out:
 	fclose(f);
 	png_destroy_info_struct(png_ptr, &info);
