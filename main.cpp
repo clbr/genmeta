@@ -24,9 +24,6 @@ void nukenewline(char buf[]) {
 
 static void newmeta(const char * const fname) {
 
-	std::map<u8, u8> counter;
-	std::map<u8, u8>::const_iterator it;
-
 //	printf("Loading sprite %s\n", fname);
 	spriteui->clear();
 	spritelist.clear();
@@ -127,7 +124,35 @@ static void newcb(Fl_Widget *, void *) {
 }
 
 static void savecb(Fl_Widget *, void *) {
-	// TODO save everything
+
+	char path[PATH_MAX];
+	FILE *f;
+	u32 i;
+
+	const char *shortname = strrchr(basefname, '/');
+	if (!shortname)
+		shortname = basefname;
+
+	// Save metasprite
+	sprintf(path, "%s.meta", basefname);
+	f = fopen(path, "wb");
+	if (!f) {
+		fl_alert("Can't open %s", path);
+		return;
+	}
+
+	fprintf(f, "%s.png\n", basefname);
+
+	for (i = 0; i < spritelist.size(); i++) {
+		fprintf(f, "%s\n", spriteui->text(i + 1));
+	}
+
+	fclose(f);
+
+	// Save header TODO
+	// Save sprites TODO
+
+	win->label("GenMeta");
 }
 
 static void opencb(Fl_Widget *, void *) {
@@ -147,6 +172,8 @@ static void opencb(Fl_Widget *, void *) {
 
 		// TODO load image, list of things
 	}
+
+	fclose(f);
 }
 
 static void quitcb(Fl_Widget *, void *) {
