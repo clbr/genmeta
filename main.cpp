@@ -83,6 +83,13 @@ static void newmeta(const char * const fname) {
 		memcpy(target, &rows[i][0], imgw);
 	}
 
+	Fl_PNG_Image *png;
+	png = new Fl_PNG_Image(fname);
+
+	if (meta->scaled)
+		delete meta->scaled;
+	meta->scaled = (Fl_RGB_Image *) png->copy(imgw * 4, imgh * 4);
+
 out:
 	fclose(f);
 	png_destroy_info_struct(png_ptr, &info);

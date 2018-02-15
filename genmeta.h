@@ -10,6 +10,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_File_Chooser.H>
 #include <FL/Fl_RGB_Image.H>
+#include <FL/Fl_PNG_Image.H>
 #include <FL/fl_draw.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Group.H>
@@ -23,13 +24,16 @@ extern Fl_Menu_Item menu_[];
 class genmeta: public Fl_Widget {
 private:
 public:
-	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h), raw(NULL) {}
+	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h), raw(NULL),
+		scaled(NULL) {}
 
 	int handle(int e);
 	void draw();
 
 	u8 *raw;
 	u32 imgw, imgh;
+
+	Fl_RGB_Image *scaled;
 };
 extern genmeta *meta;
 
