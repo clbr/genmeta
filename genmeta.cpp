@@ -79,7 +79,24 @@ int genmeta::handle(int e) {
 					// TODO if selected from list, or pick below
 				} else {
 					// TODO place this sprite
+					sprite s;
+					s.x = inx;
+					s.y = iny;
+					s.type = (tooltype) tool;
+
+					spritelist.push_back(s);
+
+					char buf[128];
+					sprintf(buf, "%ux%u %u,%u",
+						sprw[tool] / 8,
+						sprh[tool] / 8,
+						inx, iny);
+					spriteui->add(buf);
+
+					redraw();
 				}
+			} else {
+				// if (tool == MOVE && selected) TODO remove this one
 			}
 
 			return 1;

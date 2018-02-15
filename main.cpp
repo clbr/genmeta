@@ -150,6 +150,11 @@ public:
 
 	int handle(int e) {
 		switch (e) {
+			case FL_PUSH:
+				Fl::focus(this);
+				handle(FL_FOCUS);
+				return 1;
+			break;
 			case FL_FOCUS:
 				value(1);
 				tool = who;
@@ -161,7 +166,7 @@ public:
 				return 1;
 			break;
 		}
-		return 0;
+		return Fl_Toggle_Button::handle(e);
 	}
 };
 
