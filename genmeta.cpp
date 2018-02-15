@@ -3,6 +3,37 @@
 
 int genmeta::handle(int e) {
 
+	const u32 sx = x() + (w() - scaledw) / 2;
+	const u32 sy = y() + (h() - scaledh) / 2;
+
+	switch (e) {
+		case FL_ENTER:
+			return 1;
+		break;
+		case FL_LEAVE:
+			mx = my = 65535;
+			return 1;
+		break;
+		case FL_MOVE:
+			mx = Fl::event_x() - x();
+			my = Fl::event_y() - y();
+
+			if (mx >= sx && mx < sx + scaledw &&
+				my >= sy && my < sy + scaledh) {
+				inside = true;
+
+				inx = (mx - sx) / 4;
+				iny = (my - sy) / 4;
+			} else {
+				inside = false;
+			}
+
+			redraw();
+		break;
+		case FL_PUSH:
+		break;
+	}
+
 	return 0;
 }
 
@@ -36,9 +67,6 @@ void genmeta::draw() {
 		return;
 
 	fl_push_clip(x(), y(), w(), h());
-
-	const u32 scaledw = imgw * 4;
-	const u32 scaledh = imgh * 4;
 
 	const u32 sx = x() + (w() - scaledw) / 2;
 	const u32 sy = y() + (h() - scaledh) / 2;

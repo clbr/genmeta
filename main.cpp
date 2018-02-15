@@ -91,6 +91,8 @@ static void newmeta(const char * const fname) {
 	if (meta->scaled)
 		delete meta->scaled;
 	meta->scaled = (Fl_RGB_Image *) png->copy(imgw * 4, imgh * 4);
+	meta->scaledw = imgw * 4;
+	meta->scaledh = imgh * 4;
 
 	delete png;
 

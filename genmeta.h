@@ -24,8 +24,13 @@ extern Fl_Menu_Item menu_[];
 
 class genmeta: public Fl_Widget {
 private:
+	u32 mx, my;
+	u32 inx, iny;
+	bool inside;
 public:
-	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h), raw(NULL),
+	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h),
+		mx(65535), my(65535),
+		raw(NULL),
 		scaled(NULL) {}
 
 	int handle(int e);
@@ -33,6 +38,7 @@ public:
 
 	u8 *raw;
 	u32 imgw, imgh;
+	u32 scaledw, scaledh;
 
 	Fl_RGB_Image *scaled;
 };
