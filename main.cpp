@@ -153,6 +153,7 @@ public:
 			case FL_FOCUS:
 				value(1);
 				tool = who;
+				meta->redraw();
 				return 1;
 			break;
 			case FL_UNFOCUS:
