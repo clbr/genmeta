@@ -96,7 +96,10 @@ int genmeta::handle(int e) {
 				return 1;
 			if (inside) {
 				if (tool == MOVE) {
-					if (selected < spritelist.size()) {
+					if (Fl::event_button() == FL_RIGHT_MOUSE) {
+						// Unselect, do nothing
+						selected = USHRT_MAX;
+					} else if (selected < spritelist.size()) {
 						spritelist[selected].x = inx;
 						spritelist[selected].y = iny;
 
@@ -105,6 +108,8 @@ int genmeta::handle(int e) {
 							sprh[spritelist[selected].type] / 8,
 							inx, iny);
 						spriteui->text(selected + 1, buf);
+
+						selected = USHRT_MAX;
 					} else {
 						// Pick below
 						selected = coveredby(inx, iny);
