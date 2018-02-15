@@ -6,3 +6,15 @@ Genesis metasprite utility.
 Given a PNG frame, properly paletted, this util lets you place Genesis
 sprites on top, building a metasprite. There are algorithms, but at
 this kind of task humans tend to do better.
+
+image:screenie.png
+
+Usage
+-----
+
+Arrow keys change the current tool.
+
+To move a sprite, use the move tool, or select a sprite from the list.
+To delete a sprite, click outside the image borders when moving.
+
+When all non-background pixels are covered, the grey background turns green.
