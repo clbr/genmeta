@@ -16,8 +16,8 @@
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Toggle_Button.H>
-#include <FL/Fl_Browser.H>
-extern Fl_Browser *spriteui;
+#include <FL/Fl_Hold_Browser.H>
+extern Fl_Hold_Browser *spriteui;
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Menu_Bar.H>
 extern Fl_Menu_Item menu_[];

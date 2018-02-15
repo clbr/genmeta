@@ -3,7 +3,7 @@
 #include "genmeta.h"
 #include <png.h>
 
-Fl_Browser *spriteui = (Fl_Browser *) 0;
+Fl_Hold_Browser *spriteui = (Fl_Hold_Browser *) 0;
 genmeta *meta;
 static Fl_Double_Window *win;
 u8 tool;
@@ -104,6 +104,11 @@ out:
 	png_destroy_read_struct(&png_ptr, NULL, NULL);
 
 	win->redraw();
+}
+
+static void selectsprite(Fl_Widget *, void *) {
+	// TODO pick from list
+	tool = MOVE;
 }
 
 static void newcb(Fl_Widget *, void *) {
@@ -240,7 +245,8 @@ int main(int argc, char **argv)
 				new focusbutton(5, 190, 64, 20, "Move", MOVE);
 			}	// focusbutton* o
 			{
-				spriteui = new Fl_Browser(5, 215, 160, 340);
+				spriteui = new Fl_Hold_Browser(5, 215, 160, 340);
+				spriteui->callback(selectsprite);
 				Fl_Group::current()->resizable(spriteui);
 			}	// Fl_Browser* spriteui
 			o->end();
