@@ -21,6 +21,7 @@ extern Fl_Hold_Browser *spriteui;
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Menu_Bar.H>
 extern Fl_Menu_Item menu_[];
+extern Fl_Double_Window *win;
 
 class genmeta: public Fl_Widget {
 private:
@@ -73,5 +74,7 @@ struct sprite {
 };
 
 extern std::vector<sprite> spritelist;
+
+void filechanged();
 
 #endif

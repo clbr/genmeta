@@ -110,6 +110,7 @@ int genmeta::handle(int e) {
 						spriteui->text(selected + 1, buf);
 
 						selected = USHRT_MAX;
+						filechanged();
 					} else {
 						// Pick below
 						selected = coveredby(inx, iny);
@@ -129,6 +130,7 @@ int genmeta::handle(int e) {
 					spriteui->add(buf);
 
 					redraw();
+					filechanged();
 				}
 			} else {
 				if (tool == MOVE && selected < USHRT_MAX) {
@@ -137,6 +139,7 @@ int genmeta::handle(int e) {
 					spritelist.erase(spritelist.begin() + selected);
 					redraw();
 					selected = USHRT_MAX;
+					filechanged();
 				}
 			}
 

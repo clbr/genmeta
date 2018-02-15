@@ -5,11 +5,15 @@
 
 Fl_Hold_Browser *spriteui = (Fl_Hold_Browser *) 0;
 genmeta *meta;
-static Fl_Double_Window *win;
+Fl_Double_Window *win;
 u8 tool;
 u16 selected;
 char basefname[PATH_MAX];
 std::vector<sprite> spritelist;
+
+void filechanged() {
+	win->label("GenMeta *");
+}
 
 void nukenewline(char buf[]) {
 
