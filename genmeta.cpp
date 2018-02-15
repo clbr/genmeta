@@ -168,7 +168,7 @@ void genmeta::draw() {
 	// Draw the being-placed sprite
 	if (inside && tool != MOVE) {
 		fillcolor(spritelist.size(), 128);
-		spriteimg.draw(mx, my, sprw[tool] * 4, sprh[tool] * 4);
+		spriteimg.draw(sx + inx * 4, sy + iny * 4, sprw[tool] * 4, sprh[tool] * 4);
 	}
 
 	fl_pop_clip();
