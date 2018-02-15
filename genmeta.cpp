@@ -52,7 +52,7 @@ int genmeta::handle(int e) {
 			return 1;
 		break;
 		case FL_LEAVE:
-			mx = my = 65535;
+			mx = my = USHRT_MAX;
 			return 1;
 		break;
 		case FL_MOVE:

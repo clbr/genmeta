@@ -29,7 +29,7 @@ private:
 	bool inside;
 public:
 	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h),
-		mx(65535), my(65535),
+		mx(USHRT_MAX), my(USHRT_MAX),
 		raw(NULL),
 		scaled(NULL) {}
 
@@ -45,6 +45,7 @@ public:
 extern genmeta *meta;
 
 extern u8 tool;
+extern u16 selected;
 
 enum tooltype {
 	SPR1x1,

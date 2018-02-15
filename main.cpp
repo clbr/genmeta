@@ -7,6 +7,7 @@ Fl_Hold_Browser *spriteui = (Fl_Hold_Browser *) 0;
 genmeta *meta;
 static Fl_Double_Window *win;
 u8 tool;
+u16 selected;
 char basefname[PATH_MAX];
 std::vector<sprite> spritelist;
 
@@ -109,6 +110,7 @@ out:
 static void selectsprite(Fl_Widget *, void *) {
 	// TODO pick from list
 	tool = MOVE;
+	selected = USHRT_MAX;
 }
 
 static void newcb(Fl_Widget *, void *) {
@@ -163,6 +165,7 @@ public:
 			case FL_FOCUS:
 				value(1);
 				tool = who;
+				selected = USHRT_MAX;
 				meta->redraw();
 				return 1;
 			break;
