@@ -107,10 +107,15 @@ out:
 	win->redraw();
 }
 
-static void selectsprite(Fl_Widget *, void *) {
-	// TODO pick from list
+static void selectsprite(Fl_Widget *w, void *) {
+	Fl_Hold_Browser *b = (Fl_Hold_Browser *) w;
+
+	// Pick from list
 	tool = MOVE;
-	selected = USHRT_MAX;
+	selected = b->value();
+
+	if (!selected)
+		selected = USHRT_MAX;
 }
 
 static void newcb(Fl_Widget *, void *) {
