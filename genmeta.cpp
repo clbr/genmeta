@@ -90,7 +90,18 @@ int genmeta::handle(int e) {
 }
 
 static u8 uncovered(const u32 x, const u32 y) {
-	// TODO
+
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++) {
+		if (x < it->x ||
+			x > it->x + sprw[it->type] ||
+			y < it->y ||
+			y > it->y + sprh[it->type])
+			continue;
+		// It was covered by this sprite.
+		return 0;
+	}
+
 	return 1;
 }
 
