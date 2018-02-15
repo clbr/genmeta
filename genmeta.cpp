@@ -63,6 +63,7 @@ int genmeta::handle(int e) {
 
 	const u32 sx = x() + (w() - scaledw) / 2;
 	const u32 sy = y() + (h() - scaledh) / 2;
+	char buf[128];
 
 	switch (e) {
 		case FL_ENTER:
@@ -95,8 +96,15 @@ int genmeta::handle(int e) {
 				return 1;
 			if (inside) {
 				if (tool == MOVE) {
-					// TODO if selected from list
 					if (selected < spritelist.size()) {
+						spritelist[selected].x = inx;
+						spritelist[selected].y = iny;
+
+						sprintf(buf, "%ux%u %u,%u",
+							sprw[spritelist[selected].type] / 8,
+							sprh[spritelist[selected].type] / 8,
+							inx, iny);
+						spriteui->text(selected + 1, buf);
 					} else {
 						// Pick below
 						selected = coveredby(inx, iny);
@@ -109,7 +117,6 @@ int genmeta::handle(int e) {
 
 					spritelist.push_back(s);
 
-					char buf[128];
 					sprintf(buf, "%ux%u %u,%u",
 						sprw[tool] / 8,
 						sprh[tool] / 8,
