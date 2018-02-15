@@ -7,7 +7,7 @@ Given a PNG frame, properly paletted, this util lets you place Genesis
 sprites on top, building a metasprite. There are algorithms, but at
 this kind of task humans tend to do better.
 
-image:screenie.png
+image:screenie.png[]
 
 Usage
 -----
