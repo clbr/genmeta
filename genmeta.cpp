@@ -1,8 +1,8 @@
 #include "genmeta.h"
 #include "colors.h"
 
-static u8 spritebits[32 * 4 * 32 * 4 * 4];
-static Fl_RGB_Image spriteimg(spritebits, 32 * 4, 32 * 4, 4);
+static u32 spritebits[32 * 4 * 32 * 4];
+static Fl_RGB_Image spriteimg((u8 *) spritebits, 32 * 4, 32 * 4, 4);
 
 static const u8 sprw[MOVE] = {
 	/*SPR1x1] = */ 8,
@@ -56,8 +56,8 @@ int genmeta::handle(int e) {
 			return 1;
 		break;
 		case FL_MOVE:
-			mx = Fl::event_x() - x();
-			my = Fl::event_y() - y();
+			mx = Fl::event_x();
+			my = Fl::event_y();
 
 			if (mx >= sx && mx < sx + scaledw &&
 				my >= sy && my < sy + scaledh) {
@@ -123,6 +123,21 @@ static u8 checkok() {
 	return 1;
 }
 
+static void fillcolor(u16 num, const u8 alpha) {
+	num %= 63;
+
+	const u32 col = uniqcolors[num * 3 + 0] |
+			uniqcolors[num * 3 + 1] << 8 |
+			uniqcolors[num * 3 + 2] << 16 |
+			alpha << 24;
+
+	u32 i;
+	for (i = 0; i < 32 * 4 * 32 * 4; i++)
+		spritebits[i] = col;
+
+	spriteimg.uncache();
+}
+
 void genmeta::draw() {
 	fl_rectf(x(), y(), w(), h(), checkok() ? FL_GREEN - 1 : color());
 
@@ -143,6 +158,17 @@ void genmeta::draw() {
 	}
 	for (px = sx + 32; px < sx + scaledw; px += 32) {
 		fl_line(px, sy, px, sy + scaledh);
+	}
+
+	// Draw every placed sprite TODO
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++) {
+	}
+
+	// Draw the being-placed sprite
+	if (inside && tool != MOVE) {
+		fillcolor(spritelist.size(), 128);
+		spriteimg.draw(mx, my, sprw[tool] * 4, sprh[tool] * 4);
 	}
 
 	fl_pop_clip();
