@@ -171,10 +171,42 @@ static void opencb(Fl_Widget *, void *) {
 	}
 
 	char buf[1024];
+	bool nameloaded = false;
 	while (fgets(buf, 1024, f)) {
 		nukenewline(buf);
 
-		// TODO load image, list of things
+		// Load image, list of things
+		if (!nameloaded) {
+			nameloaded = true;
+			newmeta(buf);
+			continue;
+		}
+
+		sprite s;
+		s.type = MOVE;
+		u32 w, h, i;
+		if (sscanf(buf, "%ux%u %hu,%hu", &w, &h, &s.x, &s.y) != 4) {
+			fl_alert("%s is corrupted!", name);
+			return;
+		}
+
+		// Find type enum
+		w *= 8;
+		h *= 8;
+		for (i = 0; i < MOVE; i++) {
+			if (sprw[i] == w && sprh[i] == h) {
+				s.type = (tooltype) i;
+				break;
+			}
+		}
+
+		if (s.type == MOVE) {
+			fl_alert("%s is corrupted!", name);
+			return;
+		}
+
+		spritelist.push_back(s);
+		spriteui->add(buf);
 	}
 
 	fclose(f);

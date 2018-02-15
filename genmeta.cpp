@@ -4,7 +4,7 @@
 static u32 spritebits[32 * 4 * 32 * 4];
 static Fl_RGB_Image spriteimg((u8 *) spritebits, 32 * 4, 32 * 4, 4);
 
-static const u8 sprw[MOVE] = {
+const u8 sprw[MOVE] = {
 	/*SPR1x1] = */ 8,
 	/*SPR2x1] = */ 16,
 	/*SPR3x1] = */ 24,
@@ -23,7 +23,7 @@ static const u8 sprw[MOVE] = {
 	/*SPR4x4] = */ 32,
 };
 
-static const u8 sprh[MOVE] = {
+const u8 sprh[MOVE] = {
 	/*SPR1x1] = */ 8,
 	/*SPR2x1] = */ 8,
 	/*SPR3x1] = */ 8,

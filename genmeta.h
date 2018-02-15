@@ -77,4 +77,7 @@ extern std::vector<sprite> spritelist;
 
 void filechanged();
 
+extern const u8 sprw[MOVE];
+extern const u8 sprh[MOVE];
+
 #endif
