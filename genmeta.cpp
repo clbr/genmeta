@@ -74,6 +74,8 @@ int genmeta::handle(int e) {
 			return 1;
 		break;
 		case FL_PUSH:
+			if (!raw)
+				return 1;
 			if (inside) {
 				if (tool == MOVE) {
 					// TODO if selected from list, or pick below
