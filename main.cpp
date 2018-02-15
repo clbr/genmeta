@@ -90,6 +90,8 @@ static void newmeta(const char * const fname) {
 		delete meta->scaled;
 	meta->scaled = (Fl_RGB_Image *) png->copy(imgw * 4, imgh * 4);
 
+	delete png;
+
 out:
 	fclose(f);
 	png_destroy_info_struct(png_ptr, &info);
