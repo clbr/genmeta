@@ -29,7 +29,6 @@ public:
 	void draw();
 
 	u8 *raw;
-	u8 bgpixel;
 	u32 imgw, imgh;
 };
 extern genmeta *meta;

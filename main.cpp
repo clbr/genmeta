@@ -83,30 +83,6 @@ static void newmeta(const char * const fname) {
 		memcpy(target, &rows[i][0], imgw);
 	}
 
-	// Detect the bg pixel
-	u8 px[4], found;
-	px[0] = meta->raw[0];
-	px[1] = meta->raw[imgw - 1];
-	px[2] = meta->raw[(imgh - 1) * imgw];
-	px[3] = meta->raw[(imgh - 1) * imgw + imgw - 1];
-
-	counter[px[0]]++;
-	counter[px[1]]++;
-	counter[px[2]]++;
-	counter[px[3]]++;
-
-	found = 0;
-	meta->bgpixel = 255;
-	for (it = counter.begin(); it != counter.end(); it++) {
-		if (it->second > 2) {
-			found = 1;
-			meta->bgpixel = it->first;
-		}
-	}
-
-	if (!found)
-		fl_alert("Couldn't determine background color from corners, finish detection won't work");
-
 out:
 	fclose(f);
 	png_destroy_info_struct(png_ptr, &info);
