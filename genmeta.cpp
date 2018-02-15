@@ -95,7 +95,12 @@ int genmeta::handle(int e) {
 				return 1;
 			if (inside) {
 				if (tool == MOVE) {
-					// TODO if selected from list, or pick below
+					// TODO if selected from list
+					if (selected < spritelist.size()) {
+					} else {
+						// Pick below
+						selected = coveredby(inx, iny);
+					}
 				} else {
 					sprite s;
 					s.x = inx;
@@ -114,7 +119,13 @@ int genmeta::handle(int e) {
 					redraw();
 				}
 			} else {
-				// if (tool == MOVE && selected) TODO remove this one
+				if (tool == MOVE && selected < USHRT_MAX) {
+					// Remove this one
+					spriteui->remove(selected + 1);
+					spritelist.erase(spritelist.begin() + selected);
+					redraw();
+					selected = USHRT_MAX;
+				}
 			}
 
 			return 1;
