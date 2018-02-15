@@ -3,11 +3,12 @@
 #include "genmeta.h"
 #include <png.h>
 
-Fl_Browser *spritelist = (Fl_Browser *) 0;
+Fl_Browser *spriteui = (Fl_Browser *) 0;
 genmeta *meta;
 static Fl_Double_Window *win;
 u8 tool;
 char basefname[PATH_MAX];
+std::vector<sprite> spritelist;
 
 void nukenewline(char buf[]) {
 
@@ -26,7 +27,8 @@ static void newmeta(const char * const fname) {
 	std::map<u8, u8>::const_iterator it;
 
 //	printf("Loading sprite %s\n", fname);
-	spritelist->clear();
+	spriteui->clear();
+	spritelist.clear();
 	free(meta->raw);
 	meta->raw = NULL;
 
@@ -228,9 +230,9 @@ int main(int argc, char **argv)
 				new focusbutton(5, 190, 64, 20, "Move", MOVE);
 			}	// focusbutton* o
 			{
-				spritelist = new Fl_Browser(5, 215, 160, 340);
-				Fl_Group::current()->resizable(spritelist);
-			}	// Fl_Browser* spritelist
+				spriteui = new Fl_Browser(5, 215, 160, 340);
+				Fl_Group::current()->resizable(spriteui);
+			}	// Fl_Browser* spriteui
 			o->end();
 		}		// Fl_Group* o
 		{

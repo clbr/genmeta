@@ -6,6 +6,7 @@
 #include <lrtypes.h>
 
 #include <map>
+#include <vector>
 
 #include <FL/Fl.H>
 #include <FL/Fl_File_Chooser.H>
@@ -16,7 +17,7 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Toggle_Button.H>
 #include <FL/Fl_Browser.H>
-extern Fl_Browser *spritelist;
+extern Fl_Browser *spriteui;
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Menu_Bar.H>
 extern Fl_Menu_Item menu_[];
@@ -39,7 +40,7 @@ extern genmeta *meta;
 
 extern u8 tool;
 
-enum {
+enum tooltype {
 	SPR1x1,
 	SPR2x1,
 	SPR3x1,
@@ -58,5 +59,12 @@ enum {
 	SPR4x4,
 	MOVE
 };
+
+struct sprite {
+	tooltype type;
+	u16 x, y;
+};
+
+extern std::vector<sprite> spritelist;
 
 #endif
