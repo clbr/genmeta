@@ -42,6 +42,23 @@ static const u8 sprh[MOVE] = {
 	/*SPR4x4] = */ 32,
 };
 
+static u16 coveredby(const u32 x, const u32 y) {
+
+	u32 i = 0;
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++, i++) {
+		if (x < it->x ||
+			x > it->x + sprw[it->type] ||
+			y < it->y ||
+			y > it->y + sprh[it->type])
+			continue;
+		// It was covered by this sprite.
+		return i;
+	}
+
+	return USHRT_MAX;
+}
+
 int genmeta::handle(int e) {
 
 	const u32 sx = x() + (w() - scaledw) / 2;
@@ -109,18 +126,7 @@ int genmeta::handle(int e) {
 
 static u8 uncovered(const u32 x, const u32 y) {
 
-	for (std::vector<sprite>::const_iterator it = spritelist.begin();
-		it != spritelist.end(); it++) {
-		if (x < it->x ||
-			x > it->x + sprw[it->type] ||
-			y < it->y ||
-			y > it->y + sprh[it->type])
-			continue;
-		// It was covered by this sprite.
-		return 0;
-	}
-
-	return 1;
+	return coveredby(x, y) == USHRT_MAX;
 }
 
 static u8 checkok() {
