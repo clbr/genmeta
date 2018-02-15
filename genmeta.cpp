@@ -1,6 +1,47 @@
 #include "genmeta.h"
 #include "colors.h"
 
+static u8 spritebits[32 * 4 * 32 * 4 * 4];
+static Fl_RGB_Image spriteimg(spritebits, 32 * 4, 32 * 4, 4);
+
+static const u8 sprw[MOVE] = {
+	/*SPR1x1] = */ 8,
+	/*SPR2x1] = */ 16,
+	/*SPR3x1] = */ 24,
+	/*SPR4x1] = */ 32,
+	/*SPR1x2] = */ 8,
+	/*SPR2x2] = */ 16,
+	/*SPR3x2] = */ 24,
+	/*SPR4x2] = */ 32,
+	/*SPR1x3] = */ 8,
+	/*SPR2x3] = */ 16,
+	/*SPR3x3] = */ 24,
+	/*SPR4x3] = */ 32,
+	/*SPR1x4] = */ 8,
+	/*SPR2x4] = */ 16,
+	/*SPR3x4] = */ 24,
+	/*SPR4x4] = */ 32,
+};
+
+static const u8 sprh[MOVE] = {
+	/*SPR1x1] = */ 8,
+	/*SPR2x1] = */ 8,
+	/*SPR3x1] = */ 8,
+	/*SPR4x1] = */ 8,
+	/*SPR1x2] = */ 16,
+	/*SPR2x2] = */ 16,
+	/*SPR3x2] = */ 16,
+	/*SPR4x2] = */ 16,
+	/*SPR1x3] = */ 24,
+	/*SPR2x3] = */ 24,
+	/*SPR3x3] = */ 24,
+	/*SPR4x3] = */ 24,
+	/*SPR1x4] = */ 32,
+	/*SPR2x4] = */ 32,
+	/*SPR3x4] = */ 32,
+	/*SPR4x4] = */ 32,
+};
+
 int genmeta::handle(int e) {
 
 	const u32 sx = x() + (w() - scaledw) / 2;
@@ -29,8 +70,19 @@ int genmeta::handle(int e) {
 			}
 
 			redraw();
+
+			return 1;
 		break;
 		case FL_PUSH:
+			if (inside) {
+				if (tool == MOVE) {
+					// TODO if selected from list, or pick below
+				} else {
+					// TODO place this sprite
+				}
+			}
+
+			return 1;
 		break;
 	}
 
