@@ -78,7 +78,6 @@ int genmeta::handle(int e) {
 				if (tool == MOVE) {
 					// TODO if selected from list, or pick below
 				} else {
-					// TODO place this sprite
 					sprite s;
 					s.x = inx;
 					s.y = iny;
@@ -177,9 +176,14 @@ void genmeta::draw() {
 		fl_line(px, sy, px, sy + scaledh);
 	}
 
-	// Draw every placed sprite TODO
+	// Draw every placed sprite
+	u32 i = 0;
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
-		it != spritelist.end(); it++) {
+		it != spritelist.end(); it++, i++) {
+
+		fillcolor(i, 192);
+		spriteimg.draw(sx + it->x * 4, sy + it->y * 4,
+			sprw[it->type] * 4, sprh[it->type] * 4);
 	}
 
 	// Draw the being-placed sprite
