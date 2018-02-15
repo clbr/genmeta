@@ -34,4 +34,25 @@ void genmeta::draw() {
 
 	if (!raw)
 		return;
+
+	fl_push_clip(x(), y(), w(), h());
+
+	const u32 scaledw = imgw * 4;
+	const u32 scaledh = imgh * 4;
+
+	const u32 sx = x() + (w() - scaledw) / 2;
+	const u32 sy = y() + (h() - scaledh) / 2;
+	scaled->draw(sx, sy);
+
+	// Draw black lines every 8 pixels
+	fl_color(FL_GRAY0 + 2);
+	u32 px, py;
+	for (py = sy + 32; py < sy + scaledh; py += 32) {
+		fl_line(sx, py, sx + scaledw, py);
+	}
+	for (px = sx + 32; px < sx + scaledw; px += 32) {
+		fl_line(px, sy, px, sy + scaledh);
+	}
+
+	fl_pop_clip();
 }
