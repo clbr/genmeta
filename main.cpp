@@ -131,8 +131,23 @@ static void newcb(Fl_Widget *, void *) {
 		newmeta(name);
 }
 
-static void copytile(const sprite &spr, u32 x, u32 y,
-			u8 * const dst) {
+static void copytile(const sprite &spr, u32 xs, u32 ys,
+			u8 * const dst, const u32 tiles, const u32 curtile) {
+	xs *= 8;
+	ys *= 8;
+
+	const u32 dstX = curtile * 8;
+
+	u32 x, y, ox, oy;
+	for (y = spr.y + ys, oy = 0; y < spr.y + ys + 8; y++, oy++) {
+		for (x = spr.x + xs, ox = 0; x < spr.x + xs + 8; x++, ox++) {
+			u8 px = 0;
+			if (x < meta->imgw && y < meta->imgh)
+				px = meta->raw[y * meta->imgw + x];
+
+			dst[oy * tiles * 8 + dstX + ox] = px;
+		}
+	}
 }
 
 static void savecb(Fl_Widget *, void *) {
@@ -181,7 +196,7 @@ static void savecb(Fl_Widget *, void *) {
 
 		for (x = 0; x < w; x++) {
 			for (y = 0; y < h; y++, i++) {
-				copytile(*it, x, y, &data[i * 64]);
+				copytile(*it, x, y, data, tiles, i);
 			}
 		}
 	}
