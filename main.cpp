@@ -150,6 +150,31 @@ static void copytile(const sprite &spr, u32 xs, u32 ys,
 	}
 }
 
+static void savepng(FILE *f, const u8 * const data, const u32 w) {
+
+	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	if (!png_ptr) abort();
+	png_infop info = png_create_info_struct(png_ptr);
+	if (!info) abort();
+	if (setjmp(png_jmpbuf(png_ptr))) abort();
+
+	png_init_io(png_ptr, f);
+	png_set_IHDR(png_ptr, info, w, 8, 4, PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE,
+			PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+	png_set_PLTE(png_ptr, info, palette, num_colors);
+	png_write_info(png_ptr, info);
+	png_set_packing(png_ptr);
+
+	u32 i;
+	for (i = 0; i < 8; i++) {
+		png_write_row(png_ptr, (png_byte *) data + i * w);
+	}
+	png_write_end(png_ptr, NULL);
+
+	png_destroy_info_struct(png_ptr, &info);
+	png_destroy_write_struct(&png_ptr, NULL);
+}
+
 static void savecb(Fl_Widget *, void *) {
 
 	char path[PATH_MAX];
@@ -177,7 +202,8 @@ static void savecb(Fl_Widget *, void *) {
 	fclose(f);
 
 	// Save header TODO
-	// Save sprites TODO
+
+	// Save sprites
 	u32 tiles = 0;
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++) {
@@ -201,7 +227,17 @@ static void savecb(Fl_Widget *, void *) {
 		}
 	}
 
+	sprintf(path, "%s_sprite.png", basefname);
+	f = fopen(path, "wb");
+	if (!f) {
+		fl_alert("Can't open %s", path);
+		return;
+	}
+
+	savepng(f, data, tiles * 8);
+
 	free(data);
+	fclose(f);
 
 	win->label("GenMeta");
 }
