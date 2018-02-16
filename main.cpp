@@ -231,6 +231,7 @@ static void savecb(Fl_Widget *, void *) {
 	f = fopen(path, "wb");
 	if (!f) {
 		fl_alert("Can't open %s", path);
+		free(data);
 		return;
 	}
 
