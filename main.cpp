@@ -206,15 +206,35 @@ static void savecb(Fl_Widget *, void *) {
 
 	fclose(f);
 
-	// Save header TODO
-
-	// Save sprites
+	// Count tiles
 	u32 tiles = 0;
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++) {
 		tiles += (sprw[it->type] / 8) * (sprh[it->type] / 8);
 	}
 
+	// Save header TODO
+	sprintf(path, "%s.h", basefname);
+	f = fopen(path, "wb");
+	if (!f) {
+		fl_alert("Can't open %s", path);
+		return;
+	}
+
+	fprintf(f, "#ifndef %s_sprite_h\n#define %s_sprite_h\n\n", shortname, shortname);
+	fprintf(f, "// Format: x, y, size, offset. Set defines for OFFX, OFFY, and BASE.\n");
+	fprintf(f, "const s16 %s_sprite[] = {\n", shortname);
+	fprintf(f, "\t%u, // tiles\n", tiles);
+
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++) {
+
+	}
+
+	fprintf(f, "};\n\n#endif\n");
+	fclose(f);
+
+	// Save sprites
 	u8 *data = (u8 *) calloc(tiles, 64);
 
 	i = 0;
