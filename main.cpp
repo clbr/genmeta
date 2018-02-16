@@ -177,6 +177,11 @@ static void savepng(FILE *f, const u8 * const data, const u32 w) {
 
 static void savecb(Fl_Widget *, void *) {
 
+	if (!spritelist.size()) {
+		fl_alert("Nothing to save!");
+		return;
+	}
+
 	char path[PATH_MAX];
 	FILE *f;
 	u32 i;
