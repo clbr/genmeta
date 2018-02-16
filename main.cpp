@@ -11,6 +11,9 @@ u16 selected;
 char basefname[PATH_MAX];
 std::vector<sprite> spritelist;
 
+static int num_colors;
+png_color palette[16];
+
 void filechanged() {
 	win->label("GenMeta *");
 }
@@ -61,7 +64,6 @@ static void newmeta(const char * const fname) {
 	const u8 depth = png_get_bit_depth(png_ptr, info);
 	u8 **rows = png_get_rows(png_ptr, info);
 	png_color *colors;
-	int num_colors;
 
 	if (type != PNG_COLOR_TYPE_PALETTE) {
 		fl_alert("%s is not paletted", fname);
@@ -77,6 +79,8 @@ static void newmeta(const char * const fname) {
 		fl_alert("Too many colors (%u)", num_colors);
 		goto out;
 	}
+
+	memcpy(palette, colors, sizeof(png_color) * num_colors);
 
 	u32 i;
 	meta->raw = (u8 *) calloc(imgw, imgh);
