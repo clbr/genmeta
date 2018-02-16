@@ -131,6 +131,10 @@ static void newcb(Fl_Widget *, void *) {
 		newmeta(name);
 }
 
+static void copytile(const sprite &spr, u32 x, u32 y,
+			u8 * const dst) {
+}
+
 static void savecb(Fl_Widget *, void *) {
 
 	char path[PATH_MAX];
@@ -159,6 +163,30 @@ static void savecb(Fl_Widget *, void *) {
 
 	// Save header TODO
 	// Save sprites TODO
+	u32 tiles = 0;
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++) {
+		tiles += (sprw[it->type] / 8) * (sprh[it->type] / 8);
+	}
+
+	u8 *data = (u8 *) calloc(tiles, 64);
+
+	i = 0;
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++) {
+
+		const u32 w = sprw[it->type] / 8;
+		const u32 h = sprh[it->type] / 8;
+		u32 x, y;
+
+		for (x = 0; x < w; x++) {
+			for (y = 0; y < h; y++, i++) {
+				copytile(*it, x, y, &data[i * 64]);
+			}
+		}
+	}
+
+	free(data);
 
 	win->label("GenMeta");
 }
