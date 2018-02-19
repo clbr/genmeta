@@ -367,6 +367,17 @@ Fl_Menu_Item menu_[] = {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
+static u8 strrdiff(const char * const str, const char * const end) {
+
+	const u32 len = strlen(str);
+	const u32 endlen = strlen(end);
+
+	if (endlen > len)
+		return 1;
+
+	return strcmp(&str[len - endlen], end) != 0;
+}
+
 int main(int argc, char **argv)
 {
 	Fl::scheme("plastic");
@@ -448,10 +459,12 @@ int main(int argc, char **argv)
 		win->end();
 	}			// Fl_Double_Window* o
 
-	if (argc > 1 && strstr(argv[argc - 1], ".png"))
-		newmeta(argv[argc - 1]);
-	if (argc > 1 && strstr(argv[argc - 1], ".meta"))
-		opencb(NULL, argv[argc - 1]);
+	if (argc > 1) {
+		if (!strrdiff(argv[argc - 1], ".png"))
+			newmeta(argv[argc - 1]);
+		if (!strrdiff(argv[argc - 1], ".meta"))
+			opencb(NULL, argv[argc - 1]);
+	}
 
 	win->show(argc, argv);
 	return Fl::run();
