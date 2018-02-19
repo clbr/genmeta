@@ -48,10 +48,11 @@ static u16 coveredby(const u32 x, const u32 y) {
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++, i++) {
 		if (x < it->x ||
-			x > it->x + sprw[it->type] ||
+			x >= it->x + sprw[it->type] ||
 			y < it->y ||
-			y > it->y + sprh[it->type])
+			y >= it->y + sprh[it->type])
 			continue;
+
 		// It was covered by this sprite.
 		return i;
 	}
