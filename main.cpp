@@ -226,9 +226,16 @@ static void savecb(Fl_Widget *, void *) {
 	fprintf(f, "// Format: x, y, size, offset. Set defines for OFFX, OFFY, and BASE.\n");
 	fprintf(f, "const s16 %s_sprite[] = {\n", shortname);
 
+	u32 t = 0;
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++) {
 
+		fprintf(f, "\tOFFX + %u, OFFY + %u, SPRITE_SIZE(%u, %u), BASE + %u,\n",
+			it->x, it->y,
+			sprw[it->type] / 8, sprh[it->type] / 8,
+			t);
+
+		t += (sprw[it->type] / 8) * (sprh[it->type] / 8);
 	}
 
 	fprintf(f, "};\n\n#endif\n");
