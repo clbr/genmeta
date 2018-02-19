@@ -268,8 +268,8 @@ static void savecb(Fl_Widget *, void *) {
 	win->label("GenMeta");
 }
 
-static void opencb(Fl_Widget *, void *) {
-	const char *name = fl_file_chooser("Open metasprite", "*.meta", "", 1);
+static void opencb(Fl_Widget *, void *ptr) {
+	const char *name = ptr ? (const char *) ptr : fl_file_chooser("Open metasprite", "*.meta", "", 1);
 	if (!name)
 		return;
 
@@ -450,6 +450,8 @@ int main(int argc, char **argv)
 
 	if (argc > 1 && strstr(argv[argc - 1], ".png"))
 		newmeta(argv[argc - 1]);
+	if (argc > 1 && strstr(argv[argc - 1], ".meta"))
+		opencb(NULL, argv[argc - 1]);
 
 	win->show(argc, argv);
 	return Fl::run();
