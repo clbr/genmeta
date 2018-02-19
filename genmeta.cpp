@@ -61,6 +61,9 @@ static u16 coveredby(const u32 x, const u32 y) {
 
 int genmeta::handle(int e) {
 
+	if (!raw)
+		return 0;
+
 	const u32 sx = x() + (w() - scaledw) / 2;
 	const u32 sy = y() + (h() - scaledh) / 2;
 	char buf[128];
