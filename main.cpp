@@ -213,7 +213,7 @@ static void savecb(Fl_Widget *, void *) {
 		tiles += (sprw[it->type] / 8) * (sprh[it->type] / 8);
 	}
 
-	// Save header TODO
+	// Save header
 	sprintf(path, "%s.h", basefname);
 	f = fopen(path, "wb");
 	if (!f) {
@@ -224,6 +224,7 @@ static void savecb(Fl_Widget *, void *) {
 	fprintf(f, "#ifndef %s_sprite_h\n#define %s_sprite_h\n\n", shortname, shortname);
 	fprintf(f, "const u16 %s_sprite_tiles = %u;\n", shortname, tiles);
 	fprintf(f, "// Format: x, y, size, offset. Set defines for OFFX, OFFY, and BASE.\n");
+
 	fprintf(f, "const s16 %s_sprite[] = {\n", shortname);
 
 	u32 t = 0;
@@ -232,6 +233,22 @@ static void savecb(Fl_Widget *, void *) {
 
 		fprintf(f, "\tOFFX + %u, OFFY + %u, SPRITE_SIZE(%u, %u), BASE + %u,\n",
 			it->x, it->y,
+			sprw[it->type] / 8, sprh[it->type] / 8,
+			t);
+
+		t += (sprw[it->type] / 8) * (sprh[it->type] / 8);
+	}
+
+	fprintf(f, "};\n\n");
+
+	fprintf(f, "const s16 %s_sprite_flip[] = {\n", shortname);
+
+	t = 0;
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++) {
+
+		fprintf(f, "\tOFFX + %u, OFFY + %u, SPRITE_SIZE(%u, %u), BASE + %u,\n",
+			meta->imgw - it->x - sprw[it->type], it->y,
 			sprw[it->type] / 8, sprh[it->type] / 8,
 			t);
 
