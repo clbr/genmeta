@@ -239,6 +239,7 @@ static void savecb(Fl_Widget *, void *) {
 		t += (sprw[it->type] / 8) * (sprh[it->type] / 8);
 	}
 
+	fprintf(f, "\t-512\n");
 	fprintf(f, "};\n\n");
 
 	fprintf(f, "const s16 %s_sprite_flip[] = {\n", shortname);
@@ -255,6 +256,7 @@ static void savecb(Fl_Widget *, void *) {
 		t += (sprw[it->type] / 8) * (sprh[it->type] / 8);
 	}
 
+	fprintf(f, "\t-512\n");
 	fprintf(f, "};\n\n#endif\n");
 	fclose(f);
 
