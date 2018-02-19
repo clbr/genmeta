@@ -30,7 +30,7 @@ private:
 	bool inside;
 public:
 	genmeta(int x, int y, int w, int h): Fl_Widget(x, y, w, h),
-		mx(USHRT_MAX), my(USHRT_MAX),
+		mx(USHRT_MAX), my(USHRT_MAX), inside(false),
 		raw(NULL),
 		scaled(NULL) {}
 
