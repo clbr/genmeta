@@ -248,7 +248,8 @@ static void savecb(Fl_Widget *, void *) {
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++) {
 
-		fprintf(f, "\t-OFFX + %d, OFFY + %u, SPRITE_SIZE(%u, %u), BASE + %u,\n",
+		fprintf(f, "\t(%u - OFFX) + %d, OFFY + %u, SPRITE_SIZE(%u, %u), BASE + %u,\n",
+			meta->imgw,
 			meta->imgw - it->x - sprw[it->type], it->y,
 			sprw[it->type] / 8, sprh[it->type] / 8,
 			t);
