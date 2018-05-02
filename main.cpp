@@ -189,6 +189,8 @@ static void savecb(Fl_Widget *, void *) {
 	const char *shortname = strrchr(basefname, '/');
 	if (!shortname)
 		shortname = basefname;
+	else
+		shortname++;
 
 	// Save metasprite
 	sprintf(path, "%s.meta", basefname);
