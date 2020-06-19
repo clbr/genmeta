@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "genmeta.h"
 #include "colors.h"
 
@@ -102,12 +103,19 @@ int genmeta::handle(int e) {
 					s.type = (tooltype) tool;
 
 					spritelist.push_back(s);
+					std::sort(spritelist.begin(), spritelist.end());
 
-					sprintf(buf, "%ux%u %u,%u",
-						sprw[tool] / 8,
-						sprh[tool] / 8,
-						inx, iny);
-					spriteui->add(buf);
+					// Regen the list
+					spriteui->clear();
+					for (std::vector<sprite>::const_iterator it = spritelist.begin();
+						it != spritelist.end(); it++) {
+
+						sprintf(buf, "%ux%u %u,%u",
+							sprw[it->type] / 8,
+							sprh[it->type] / 8,
+							it->x, it->y);
+						spriteui->add(buf);
+					}
 
 					redraw();
 					filechanged();

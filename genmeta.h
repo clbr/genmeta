@@ -59,6 +59,10 @@ enum tooltype {
 struct sprite {
 	tooltype type;
 	u16 x, y;
+
+	bool operator < (const sprite &other) const {
+		return other.type < type;
+	}
 };
 
 extern std::vector<sprite> spritelist;
