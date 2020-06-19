@@ -216,6 +216,22 @@ static void savepng(FILE *f, const u8 * const data, const u32 h) {
 	png_destroy_write_struct(&png_ptr, NULL);
 }
 
+static u8 findoff(const u8 * const packing, u8 i) {
+	i++;
+
+	u32 y;
+	for (y = 0; y < 256; y++) { // some large max-h here, sprite is guaranteed to be found
+		const u8 * const src = &packing[y * 16];
+		const u8 * const p = (u8 *) memchr(src, i, 16);
+		if (p) {
+			const u32 x = p - src;
+			return y * 16 + x;
+		}
+	}
+
+	abort();
+}
+
 static void savecb(Fl_Widget *, void *) {
 
 	if (!spritelist.size()) {
@@ -255,51 +271,6 @@ static void savecb(Fl_Widget *, void *) {
 		it != spritelist.end(); it++) {
 		tiles += (sprw[it->type] / 8) * (sprh[it->type] / 8);
 	}
-
-	// Save header
-	sprintf(path, "%s.h", basefname);
-	f = fopen(path, "wb");
-	if (!f) {
-		fl_alert("Can't open %s", path);
-		return;
-	}
-
-	fprintf(f, "#ifndef %s_sprite_h\n#define %s_sprite_h\n\n", shortname, shortname);
-	fprintf(f, "#define %s_sprite_tiles %u\n", shortname, tiles);
-	fprintf(f, "// Format: x, y, offset, attr. Set defines for (FLIP)OFFX, OFFY, and BASE.\n");
-
-	fprintf(f, "const u8 %s_sprite[] = {\n", shortname);
-
-	u32 t = 0;
-	for (std::vector<sprite>::const_iterator it = spritelist.begin();
-		it != spritelist.end(); it++) {
-
-		fprintf(f, "\tOFFX + %u, OFFY + %u, BASE + %u, 0, // %ux%u\n",
-			it->x, it->y, t,
-			sprw[it->type], sprh[it->type]);
-
-		t += (sprw[it->type] / 8) * (sprh[it->type] / 8);
-	}
-
-	fprintf(f, "\t128\n");
-	fprintf(f, "};\n\n");
-
-	fprintf(f, "const s16 %s_sprite_flip[] = {\n", shortname);
-
-	t = 0;
-	for (std::vector<sprite>::const_iterator it = spritelist.begin();
-		it != spritelist.end(); it++) {
-
-		fprintf(f, "\tFLIPOFFX + %d, OFFY + %u, BASE + %u, SPRITE_ATTR_FULL(0, 0, 0, 1, 0), // %ux%u\n",
-			meta->imgw - it->x - sprw[it->type], it->y, t,
-			sprw[it->type], sprh[it->type]);
-
-		t += (sprw[it->type] / 8) * (sprh[it->type] / 8);
-	}
-
-	fprintf(f, "\t128\n");
-	fprintf(f, "};\n\n#endif\n");
-	fclose(f);
 
 	// Save sprites
 	const u32 maxh = tiles / 16 * 2;
@@ -355,10 +326,52 @@ static void savecb(Fl_Widget *, void *) {
 	}
 
 	savepng(f, data, h * 8);
+	fclose(f);
 
+	// Save header
+	sprintf(path, "%s.h", basefname);
+	f = fopen(path, "wb");
+	if (!f) {
+		fl_alert("Can't open %s", path);
+		return;
+	}
+
+	fprintf(f, "#ifndef %s_sprite_h\n#define %s_sprite_h\n\n", shortname, shortname);
+	fprintf(f, "#define %s_sprite_tiles %u\n", shortname, tiles);
+	fprintf(f, "// Format: x, y, offset, attr. Set defines for (FLIP)OFFX, OFFY, and BASE.\n");
+
+	fprintf(f, "const u8 %s_sprite[] = {\n", shortname);
+
+	u32 t = 0;
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++, t++) {
+
+		fprintf(f, "\tOFFX + %u, OFFY + %u, BASE + %u, 0, // %ux%u\n",
+			it->x, it->y, findoff(packing, t),
+			sprw[it->type], sprh[it->type]);
+	}
+
+	fprintf(f, "\t128\n");
+	fprintf(f, "};\n\n");
+
+	fprintf(f, "const s16 %s_sprite_flip[] = {\n", shortname);
+
+	t = 0;
+	for (std::vector<sprite>::const_iterator it = spritelist.begin();
+		it != spritelist.end(); it++, t++) {
+
+		fprintf(f, "\tFLIPOFFX + %d, OFFY + %u, BASE + %u, SPRITE_ATTR_FULL(0, 0, 0, 1, 0), // %ux%u\n",
+			meta->imgw - it->x - sprw[it->type], it->y, findoff(packing, t),
+			sprw[it->type], sprh[it->type]);
+	}
+
+	fprintf(f, "\t128\n");
+	fprintf(f, "};\n\n#endif\n");
+	fclose(f);
+
+	// Cleanup
 	free(data);
 	free(packing);
-	fclose(f);
 
 	win->label("SNESMeta");
 }

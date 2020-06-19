@@ -7,6 +7,10 @@ Given a PNG frame, properly paletted, this util lets you place SNES
 sprites on top, building a metasprite. There are algorithms, but at
 this kind of task humans tend to do better.
 
+No checks for only using two sprite sizes, and the size info is not
+currently output. So it's recommended to only use one size, or edit
+the source to output the small/big info somehow.
+
 image:screenie.png[]
 
 Usage
