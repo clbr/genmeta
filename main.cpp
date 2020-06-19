@@ -225,23 +225,22 @@ static void savecb(Fl_Widget *, void *) {
 
 	fprintf(f, "#ifndef %s_sprite_h\n#define %s_sprite_h\n\n", shortname, shortname);
 	fprintf(f, "#define %s_sprite_tiles %u\n", shortname, tiles);
-	fprintf(f, "// Format: x, y, size, offset. Set defines for (FLIP)OFFX, OFFY, and BASE.\n");
+	fprintf(f, "// Format: x, y, offset, attr. Set defines for (FLIP)OFFX, OFFY, and BASE.\n");
 
-	fprintf(f, "const s16 %s_sprite[] = {\n", shortname);
+	fprintf(f, "const u8 %s_sprite[] = {\n", shortname);
 
 	u32 t = 0;
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++) {
 
-		fprintf(f, "\tOFFX + %u, OFFY + %u, SPRITE_SIZE(%u, %u), BASE + %u,\n",
-			it->x, it->y,
-			sprw[it->type] / 8, sprh[it->type] / 8,
-			t);
+		fprintf(f, "\tOFFX + %u, OFFY + %u, BASE + %u, 0, // %ux%u\n",
+			it->x, it->y, t,
+			sprw[it->type], sprh[it->type]);
 
 		t += (sprw[it->type] / 8) * (sprh[it->type] / 8);
 	}
 
-	fprintf(f, "\t-512\n");
+	fprintf(f, "\t128\n");
 	fprintf(f, "};\n\n");
 
 	fprintf(f, "const s16 %s_sprite_flip[] = {\n", shortname);
@@ -250,15 +249,14 @@ static void savecb(Fl_Widget *, void *) {
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++) {
 
-		fprintf(f, "\tFLIPOFFX + %d, OFFY + %u, SPRITE_SIZE(%u, %u), BASE + %u,\n",
-			meta->imgw - it->x - sprw[it->type], it->y,
-			sprw[it->type] / 8, sprh[it->type] / 8,
-			t);
+		fprintf(f, "\tFLIPOFFX + %d, OFFY + %u, BASE + %u, SPRITE_ATTR_FULL(0, 0, 0, 1, 0), // %ux%u\n",
+			meta->imgw - it->x - sprw[it->type], it->y, t,
+			sprw[it->type], sprh[it->type]);
 
 		t += (sprw[it->type] / 8) * (sprh[it->type] / 8);
 	}
 
-	fprintf(f, "\t-512\n");
+	fprintf(f, "\t128\n");
 	fprintf(f, "};\n\n#endif\n");
 	fclose(f);
 
