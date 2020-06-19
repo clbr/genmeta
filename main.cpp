@@ -133,7 +133,8 @@ static void newcb(Fl_Widget *, void *) {
 
 static const u8 zeroes[16] = { 0 };
 
-static void pack(u8 *packing, const sprite &spr, u32 &sx, u32 &sy, const u32 maxh) {
+static void pack(u8 *packing, const sprite &spr, u32 &sx, u32 &sy, const u32 maxh,
+			const u32 idx) {
 
 	// Greedily find the next position where this sprite fits
 	const u32 w = sprw[spr.type] / 8;
@@ -154,7 +155,7 @@ static void pack(u8 *packing, const sprite &spr, u32 &sx, u32 &sy, const u32 max
 			if (ok) {
 				// Place it
 				for (line = 0; line < h; line++) {
-					memset(&packing[(y + line) * 16 + x], 1, w);
+					memset(&packing[(y + line) * 16 + x], 1 + idx, w);
 				}
 
 				sx = x * 8;
@@ -307,12 +308,42 @@ static void savecb(Fl_Widget *, void *) {
 
 	i = 0;
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
-		it != spritelist.end(); it++) {
+		it != spritelist.end(); it++, i++) {
 
 		u32 sx, sy;
-		pack(packing, *it, sx, sy, maxh);
+		pack(packing, *it, sx, sy, maxh, i);
 		copysprite(*it, data, sx, sy);
 	}
+
+	// Find the height
+	u32 h;
+	for (h = 0; h < maxh; h++) {
+		if (!memcmp(zeroes, &packing[h * 16], 16))
+			break;
+	}
+
+	#if 0
+	// Print the packing
+	for (i = 0; i < h; i++) {
+		printf("%u%u%u%u%u%u%u%u%u%u%u%u%u%u%u%u\n",
+			packing[i * 16 + 0],
+			packing[i * 16 + 1],
+			packing[i * 16 + 2],
+			packing[i * 16 + 3],
+			packing[i * 16 + 4],
+			packing[i * 16 + 5],
+			packing[i * 16 + 6],
+			packing[i * 16 + 7],
+			packing[i * 16 + 8],
+			packing[i * 16 + 9],
+			packing[i * 16 + 10],
+			packing[i * 16 + 11],
+			packing[i * 16 + 12],
+			packing[i * 16 + 13],
+			packing[i * 16 + 14],
+			packing[i * 16 + 15]);
+	}
+	#endif
 
 	sprintf(path, "%s_sprite.png", basefname);
 	f = fopen(path, "wb");
@@ -323,13 +354,7 @@ static void savecb(Fl_Widget *, void *) {
 		return;
 	}
 
-	// Find the height
-	for (i = 0; i < maxh; i++) {
-		if (!memcmp(zeroes, &packing[i * 16], 16))
-			break;
-	}
-
-	savepng(f, data, i * 8);
+	savepng(f, data, h * 8);
 
 	free(data);
 	free(packing);
