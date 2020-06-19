@@ -131,26 +131,66 @@ static void newcb(Fl_Widget *, void *) {
 		newmeta(name);
 }
 
-static void copytile(const sprite &spr, u32 xs, u32 ys,
-			u8 * const dst, const u32 tiles, const u32 curtile) {
-	xs *= 8;
-	ys *= 8;
+static const u8 zeroes[16] = { 0 };
 
-	const u32 dstX = curtile * 8;
+static void pack(u8 *packing, const sprite &spr, u32 &sx, u32 &sy, const u32 maxh) {
 
-	u32 x, y, ox, oy;
-	for (y = spr.y + ys, oy = 0; y < spr.y + ys + 8; y++, oy++) {
-		for (x = spr.x + xs, ox = 0; x < spr.x + xs + 8; x++, ox++) {
+	// Greedily find the next position where this sprite fits
+	const u32 w = sprw[spr.type] / 8;
+	const u32 h = sprh[spr.type] / 8;
+
+	u32 x, y;
+	for (y = 0; y < maxh; y++) {
+		for (x = 0; x < 16 - w; x++) {
+			u32 line;
+			bool ok = true;
+			for (line = 0; line < h; line++) {
+				if (memcmp(zeroes, &packing[(y + line) * 16 + x], w)) {
+					ok = false;
+					break;
+				}
+			}
+
+			if (ok) {
+				// Place it
+				for (line = 0; line < h; line++) {
+					memset(&packing[(y + line) * 16 + x], 1, w);
+				}
+
+				sx = x * 8;
+				sy = y * 8;
+				return;
+			} else {
+				continue;
+			}
+		}
+	}
+
+	// Not reached, couldn't place it
+	abort();
+}
+
+static void copysprite(const sprite &spr, u8 * const dst, const u32 dx, const u32 dy) {
+
+	const u32 w = sprw[spr.type];
+	const u32 h = sprh[spr.type];
+
+	u32 y, x;
+	for (y = 0; y < h; y++) {
+		const u32 sy = spr.y + y;
+		for (x = 0; x < w; x++) {
 			u8 px = 0;
-			if (x < meta->imgw && y < meta->imgh)
-				px = meta->raw[y * meta->imgw + x];
 
-			dst[oy * tiles * 8 + dstX + ox] = px;
+			const u32 sx = spr.x + x;
+			if (sx < meta->imgw && sy < meta->imgh)
+				px = meta->raw[sy * meta->imgw + sx];
+
+			dst[(dy + y) * 128 + dx + x] = px;
 		}
 	}
 }
 
-static void savepng(FILE *f, const u8 * const data, const u32 w) {
+static void savepng(FILE *f, const u8 * const data, const u32 h) {
 
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png_ptr) abort();
@@ -159,15 +199,15 @@ static void savepng(FILE *f, const u8 * const data, const u32 w) {
 	if (setjmp(png_jmpbuf(png_ptr))) abort();
 
 	png_init_io(png_ptr, f);
-	png_set_IHDR(png_ptr, info, w, 8, 4, PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE,
+	png_set_IHDR(png_ptr, info, 128, h, 4, PNG_COLOR_TYPE_PALETTE, PNG_INTERLACE_NONE,
 			PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
 	png_set_PLTE(png_ptr, info, palette, num_colors);
 	png_write_info(png_ptr, info);
 	png_set_packing(png_ptr);
 
 	u32 i;
-	for (i = 0; i < 8; i++) {
-		png_write_row(png_ptr, (png_byte *) data + i * w);
+	for (i = 0; i < h; i++) {
+		png_write_row(png_ptr, (png_byte *) data + i * 128);
 	}
 	png_write_end(png_ptr, NULL);
 
@@ -261,21 +301,17 @@ static void savecb(Fl_Widget *, void *) {
 	fclose(f);
 
 	// Save sprites
-	u8 *data = (u8 *) calloc(tiles, 64);
+	const u32 maxh = tiles / 16 * 2;
+	u8 *data = (u8 *) calloc(maxh, 64 * 16);
+	u8 *packing = (u8 *) calloc(16, maxh);
 
 	i = 0;
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
 		it != spritelist.end(); it++) {
 
-		const u32 w = sprw[it->type] / 8;
-		const u32 h = sprh[it->type] / 8;
-		u32 x, y;
-
-		for (x = 0; x < w; x++) {
-			for (y = 0; y < h; y++, i++) {
-				copytile(*it, x, y, data, tiles, i);
-			}
-		}
+		u32 sx, sy;
+		pack(packing, *it, sx, sy, maxh);
+		copysprite(*it, data, sx, sy);
 	}
 
 	sprintf(path, "%s_sprite.png", basefname);
@@ -283,12 +319,20 @@ static void savecb(Fl_Widget *, void *) {
 	if (!f) {
 		fl_alert("Can't open %s", path);
 		free(data);
+		free(packing);
 		return;
 	}
 
-	savepng(f, data, tiles * 8);
+	// Find the height
+	for (i = 0; i < maxh; i++) {
+		if (!memcmp(zeroes, &packing[i * 16], 16))
+			break;
+	}
+
+	savepng(f, data, i * 8);
 
 	free(data);
+	free(packing);
 	fclose(f);
 
 	win->label("SNESMeta");
