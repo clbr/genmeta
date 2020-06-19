@@ -354,7 +354,7 @@ static void savecb(Fl_Widget *, void *) {
 	fprintf(f, "\t128\n");
 	fprintf(f, "};\n\n");
 
-	fprintf(f, "const s16 %s_sprite_flip[] = {\n", shortname);
+	fprintf(f, "const u8 %s_sprite_flip[] = {\n", shortname);
 
 	t = 0;
 	for (std::vector<sprite>::const_iterator it = spritelist.begin();
