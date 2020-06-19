@@ -142,7 +142,7 @@ static void pack(u8 *packing, const sprite &spr, u32 &sx, u32 &sy, const u32 max
 
 	u32 x, y;
 	for (y = 0; y < maxh; y++) {
-		for (x = 0; x < 16 - w; x++) {
+		for (x = 0; x <= 16 - w; x++) {
 			u32 line;
 			bool ok = true;
 			for (line = 0; line < h; line++) {
