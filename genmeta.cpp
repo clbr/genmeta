@@ -1,45 +1,21 @@
 #include "genmeta.h"
 #include "colors.h"
 
-static u32 spritebits[32 * 4 * 32 * 4];
-static Fl_RGB_Image spriteimg((u8 *) spritebits, 32 * 4, 32 * 4, 4);
+static u32 spritebits[64 * 4 * 64 * 4];
+static Fl_RGB_Image spriteimg((u8 *) spritebits, 64 * 4, 64 * 4, 4);
 
 const u8 sprw[MOVE] = {
 	/*SPR1x1] = */ 8,
-	/*SPR2x1] = */ 16,
-	/*SPR3x1] = */ 24,
-	/*SPR4x1] = */ 32,
-	/*SPR1x2] = */ 8,
 	/*SPR2x2] = */ 16,
-	/*SPR3x2] = */ 24,
-	/*SPR4x2] = */ 32,
-	/*SPR1x3] = */ 8,
-	/*SPR2x3] = */ 16,
-	/*SPR3x3] = */ 24,
-	/*SPR4x3] = */ 32,
-	/*SPR1x4] = */ 8,
-	/*SPR2x4] = */ 16,
-	/*SPR3x4] = */ 24,
 	/*SPR4x4] = */ 32,
+	/*SPR8x8] = */ 64,
 };
 
 const u8 sprh[MOVE] = {
 	/*SPR1x1] = */ 8,
-	/*SPR2x1] = */ 8,
-	/*SPR3x1] = */ 8,
-	/*SPR4x1] = */ 8,
-	/*SPR1x2] = */ 16,
 	/*SPR2x2] = */ 16,
-	/*SPR3x2] = */ 16,
-	/*SPR4x2] = */ 16,
-	/*SPR1x3] = */ 24,
-	/*SPR2x3] = */ 24,
-	/*SPR3x3] = */ 24,
-	/*SPR4x3] = */ 24,
-	/*SPR1x4] = */ 32,
-	/*SPR2x4] = */ 32,
-	/*SPR3x4] = */ 32,
 	/*SPR4x4] = */ 32,
+	/*SPR8x8] = */ 64,
 };
 
 static u16 coveredby(const u32 x, const u32 y) {
@@ -186,7 +162,7 @@ static void fillcolor(u16 num, const u8 alpha) {
 			alpha << 24;
 
 	u32 i;
-	for (i = 0; i < 32 * 4 * 32 * 4; i++)
+	for (i = 0; i < 64 * 4 * 64 * 4; i++)
 		spritebits[i] = col;
 
 	spriteimg.uncache();

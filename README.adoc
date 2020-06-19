@@ -1,9 +1,9 @@
-GenMeta
-=======
+SNESMeta
+========
 
-Genesis metasprite utility.
+SNES metasprite utility.
 
-Given a PNG frame, properly paletted, this util lets you place Genesis
+Given a PNG frame, properly paletted, this util lets you place SNES
 sprites on top, building a metasprite. There are algorithms, but at
 this kind of task humans tend to do better.
 

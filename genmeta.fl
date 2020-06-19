@@ -5,7 +5,7 @@ code_name {.cxx}
 Function {} {open return_type int
 } {
   Fl_Window {} {
-    label GenMeta open selected
+    label GenMeta open
     xywh {167 291 800 565} type Double resizable size_range {800 565 0 0} visible
   } {
     Fl_Group {} {open
@@ -16,71 +16,23 @@ Function {} {open return_type int
         xywh {5 30 40 35}
       }
       Fl_Button {} {
-        label 2x1
+        label 2x2
         xywh {45 30 40 35}
       }
       Fl_Button {} {
-        label 3x1
+        label 4x4
         xywh {85 30 40 35}
       }
       Fl_Button {} {
-        label 4x1
+        label 8x8
         xywh {125 30 40 35}
       }
       Fl_Button {} {
-        label 1x2
-        xywh {5 70 40 35}
-      }
-      Fl_Button {} {
-        label 2x2
-        xywh {45 70 40 35}
-      }
-      Fl_Button {} {
-        label 3x2
-        xywh {85 70 40 35}
-      }
-      Fl_Button {} {
-        label 4x2
-        xywh {125 70 40 35}
-      }
-      Fl_Button {} {
-        label 1x3
-        xywh {5 110 40 35}
-      }
-      Fl_Button {} {
-        label 2x3
-        xywh {45 110 40 35}
-      }
-      Fl_Button {} {
-        label 3x3
-        xywh {85 110 40 35}
-      }
-      Fl_Button {} {
-        label 4x3
-        xywh {125 110 40 35}
-      }
-      Fl_Button {} {
-        label 1x4
-        xywh {5 150 40 35}
-      }
-      Fl_Button {} {
-        label 2x4
-        xywh {45 150 40 35}
-      }
-      Fl_Button {} {
-        label 3x4
-        xywh {85 150 40 35}
-      }
-      Fl_Button {} {
-        label 4x4
-        xywh {125 150 40 35}
-      }
-      Fl_Button {} {
         label Move
-        xywh {5 190 64 20}
+        xywh {5 70 64 20}
       }
       Fl_Browser spritelist {
-        xywh {5 215 160 340} resizable
+        xywh {5 95 160 460} resizable
       }
     }
     Fl_Box {} {

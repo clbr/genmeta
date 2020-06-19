@@ -1,6 +1,6 @@
 .PHONY: all clean
 
-name = genmeta
+name = snesmeta
 
 FLTKCONFIG = $(shell which fltk-config13 || which fltk-config)
 

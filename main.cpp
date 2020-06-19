@@ -15,7 +15,7 @@ static int num_colors;
 png_color palette[16];
 
 void filechanged() {
-	win->label("GenMeta *");
+	win->label("SNESMeta *");
 }
 
 void nukenewline(char buf[]) {
@@ -293,7 +293,7 @@ static void savecb(Fl_Widget *, void *) {
 	free(data);
 	fclose(f);
 
-	win->label("GenMeta");
+	win->label("SNESMeta");
 }
 
 static void opencb(Fl_Widget *, void *ptr) {
@@ -411,62 +411,26 @@ int main(int argc, char **argv)
 	Fl::scheme("plastic");
 
 	{
-		win = new Fl_Double_Window(800, 565, "GenMeta");
+		win = new Fl_Double_Window(800, 565, "SNESMeta");
 		{
 			Fl_Group *o = new Fl_Group(5, 25, 160, 535);
 			{
 				new focusbutton(5, 30, 40, 35, "1x1", SPR1x1);
 			}	// focusbutton* o
 			{
-				new focusbutton(45, 30, 40, 35, "2x1", SPR2x1);
+				new focusbutton(45, 30, 40, 35, "2x2", SPR2x2);
 			}	// focusbutton* o
 			{
-				new focusbutton(85, 30, 40, 35, "3x1", SPR3x1);
+				new focusbutton(85, 30, 40, 35, "4x4", SPR4x4);
 			}	// focusbutton* o
 			{
-				new focusbutton(125, 30, 40, 35, "4x1", SPR4x1);
+				new focusbutton(125, 30, 40, 35, "8x8", SPR8x8);
 			}	// focusbutton* o
 			{
-				new focusbutton(5, 70, 40, 35, "1x2", SPR1x2);
+				new focusbutton(5, 70, 64, 20, "Move", MOVE);
 			}	// focusbutton* o
 			{
-				new focusbutton(45, 70, 40, 35, "2x2", SPR2x2);
-			}	// focusbutton* o
-			{
-				new focusbutton(85, 70, 40, 35, "3x2", SPR3x2);
-			}	// focusbutton* o
-			{
-				new focusbutton(125, 70, 40, 35, "4x2", SPR4x2);
-			}	// focusbutton* o
-			{
-				new focusbutton(5, 110, 40, 35, "1x3", SPR1x3);
-			}	// focusbutton* o
-			{
-				new focusbutton(45, 110, 40, 35, "2x3", SPR2x3);
-			}	// focusbutton* o
-			{
-				new focusbutton(85, 110, 40, 35, "3x3", SPR3x3);
-			}	// focusbutton* o
-			{
-				new focusbutton(125, 110, 40, 35, "4x3", SPR4x3);
-			}	// focusbutton* o
-			{
-				new focusbutton(5, 150, 40, 35, "1x4", SPR1x4);
-			}	// focusbutton* o
-			{
-				new focusbutton(45, 150, 40, 35, "2x4", SPR2x4);
-			}	// focusbutton* o
-			{
-				new focusbutton(85, 150, 40, 35, "3x4", SPR3x4);
-			}	// focusbutton* o
-			{
-				new focusbutton(125, 150, 40, 35, "4x4", SPR4x4);
-			}	// focusbutton* o
-			{
-				new focusbutton(5, 190, 64, 20, "Move", MOVE);
-			}	// focusbutton* o
-			{
-				spriteui = new Fl_Hold_Browser(5, 215, 160, 340);
+				spriteui = new Fl_Hold_Browser(5, 95, 160, 460);
 				spriteui->callback(selectsprite);
 				Fl_Group::current()->resizable(spriteui);
 			}	// Fl_Browser* spriteui

@@ -50,21 +50,9 @@ extern u16 selected;
 
 enum tooltype {
 	SPR1x1,
-	SPR2x1,
-	SPR3x1,
-	SPR4x1,
-	SPR1x2,
 	SPR2x2,
-	SPR3x2,
-	SPR4x2,
-	SPR1x3,
-	SPR2x3,
-	SPR3x3,
-	SPR4x3,
-	SPR1x4,
-	SPR2x4,
-	SPR3x4,
 	SPR4x4,
+	SPR8x8,
 	MOVE
 };
 
