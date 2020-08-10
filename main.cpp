@@ -273,7 +273,7 @@ static void savecb(Fl_Widget *, void *) {
 	}
 
 	// Save sprites
-	const u32 maxh = tiles / 16 * 2;
+	const u32 maxh = (tiles < 16 ? 16 : tiles) / 16 * 2;
 	u8 *data = (u8 *) calloc(maxh, 64 * 16);
 	u8 *packing = (u8 *) calloc(16, maxh);
 
